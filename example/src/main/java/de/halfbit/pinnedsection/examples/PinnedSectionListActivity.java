@@ -233,7 +233,9 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
     	    case R.id.action_showShadow:
     	        isShadowVisible = !isShadowVisible;
     	        item.setChecked(isShadowVisible);
-    	        ((PinnedSectionListView)getListView()).setShadowVisible(isShadowVisible);
+              int[] gradientColor = {0xff0000ff ,0xff00ff00, 0xff0000ff};
+              ((PinnedSectionListView)getListView()).setGradientColor(gradientColor);
+              ((PinnedSectionListView)getListView()).setShadowVisible(!isShadowVisible);
     	        break;
     	    case R.id.action_showHeaderAndFooter:
     	        hasHeaderAndFooter = !hasHeaderAndFooter;
@@ -262,7 +264,7 @@ public class PinnedSectionListActivity extends ListActivity implements OnClickLi
 	private void initializePadding() {
 	    float density = getResources().getDisplayMetrics().density;
 	    int padding = addPadding ? (int) (16 * density) : 0;
-	    getListView().setPadding(padding, padding, padding, padding);
+	     //getListView().setPadding(padding, padding, padding, padding);
 	}
 
     private void initializeHeaderAndFooter() {

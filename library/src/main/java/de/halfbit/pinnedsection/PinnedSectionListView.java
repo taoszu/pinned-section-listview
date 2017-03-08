@@ -25,6 +25,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
@@ -84,6 +85,8 @@ public class PinnedSectionListView extends ListView {
     /** Pinned view Y-translation. We use it to stick pinned view to the next section. */
     int mTranslateY;
 
+    private int []gradientColors;
+
 	/** Scroll listener which does the magic */
 	private final OnScrollListener mOnScrollListener = new OnScrollListener() {
 
@@ -141,11 +144,13 @@ public class PinnedSectionListView extends ListView {
 
     public PinnedSectionListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        gradientColors = new int[] { Color.parseColor("#ffa0a0a0"), Color.parseColor("#50a0a0a0"), Color.parseColor("#00a0a0a0")};
         initView();
     }
 
     public PinnedSectionListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        gradientColors = new int[] { Color.parseColor("#ffa0a0a0"), Color.parseColor("#50a0a0a0"), Color.parseColor("#00a0a0a0")};
         initView();
     }
 
@@ -167,11 +172,10 @@ public class PinnedSectionListView extends ListView {
 
     //-- pinned section drawing methods
 
-    public void initShadow(boolean visible) {
+    private void initShadow(boolean visible) {
         if (visible) {
             if (mShadowDrawable == null) {
-                mShadowDrawable = new GradientDrawable(Orientation.TOP_BOTTOM,
-                        new int[] { Color.parseColor("#ffa0a0a0"), Color.parseColor("#50a0a0a0"), Color.parseColor("#00a0a0a0")});
+                mShadowDrawable = new GradientDrawable(Orientation.TOP_BOTTOM, gradientColors);
                 mShadowHeight = (int) (8 * getResources().getDisplayMetrics().density);
             }
         } else {
@@ -181,6 +185,14 @@ public class PinnedSectionListView extends ListView {
             }
         }
     }
+
+  /**
+   * set shadow gradient color
+   * @param gradientColors
+   */
+  public void setGradientColor(@ColorInt int []gradientColors) {
+     this.gradientColors = gradientColors;
+   }
 
 	/** Create shadow wrapper with a pinned view for a view at given position */
 	void createPinnedShadow(int position) {
